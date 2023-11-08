@@ -1,5 +1,6 @@
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <math.h>
 
 
 int Correlations(int a[], int b[]){
@@ -12,6 +13,21 @@ int Correlations(int a[], int b[]){
     return correl;
 }
 
+float Norm_Correlat(int a[], int b[]){
+    int sum_a=0, sum_b = 0, cor_a_b=0;
+
+    for (int i = 0; i < 8; i++ ){
+        sum_a+=a[i]*a[i];
+        sum_b+=b[i]*b[i];
+        //printf(" %d ", sum_a);
+    }
+
+    cor_a_b = Correlations(a,b);
+    
+    float res =(cor_a_b/sqrt(sum_a*sum_b));
+    
+    return res;
+}
 
 
 int main(){
@@ -23,7 +39,38 @@ int main(){
     int corr_a_b = Correlations(a,b);
     int corr_a_c = Correlations(a,c);
     int corr_b_c = Correlations(b,c);
-    printf("\n%d", corr_a_b);
-    printf("\n%d", corr_a_c);
-    printf("\n%d", corr_b_c);
+    //printf("\n%d", corr_a_b);
+    //printf("\n%d", corr_a_c);
+    //printf("\n%d", corr_b_c);
+    printf("Корреляция\n");
+    printf("--------------------------\n");
+    printf("| / |  A  |   B  |   C  |\n");
+    printf("--------------------------\n");
+    printf("|  A |     |  %d |   %d |\n",corr_a_b,corr_a_c);
+    printf("--------------------------\n");
+    printf("|  B | %d |      |  %d  |\n",corr_a_b,corr_b_c);
+    printf("--------------------------\n");
+    printf("|  C |  %d |  %d  |      |\n",corr_a_c,corr_b_c);
+    printf("--------------------------\n\n\n");
+
+    float norm_corr_a_b = Norm_Correlat(a,b);
+    float norm_corr_a_c = Norm_Correlat(a,c);
+    float norm_corr_b_c = Norm_Correlat(b,c);
+    
+    // printf("\n%.3f", norm_corr_a_b);
+    // printf("\n%f", norm_corr_a_c);
+    //printf("\n%f", norm_corr_b_c);
+    printf("Нормализованная корреляция\n");
+    printf("--------------------------\n");
+    printf("|  / |  A  |   B  |   C  |\n");
+    printf("--------------------------\n");
+    printf("|  A |     |%.3f | %.3f|\n",norm_corr_a_b,norm_corr_a_c);
+    printf("--------------------------\n");
+    printf("|  B |%.3f|      | %.3f|\n",norm_corr_a_b,norm_corr_b_c);
+    printf("--------------------------\n");
+    printf("|  C |%.3f|%.3f |      |\n",norm_corr_a_c,norm_corr_b_c);
+    printf("--------------------------\n");
+
+    
+
 }
