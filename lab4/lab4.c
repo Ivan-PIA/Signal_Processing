@@ -4,17 +4,19 @@
 #define N 5
 
 void print_arrey(int a[],int n ){
-    for(int i=0; i < n; i++){
+    for(int i=0; i < n; i++)
+    {
 
         printf("%d ", a[i]);
     }
     printf("\n");
 }
 
-int cucle_x(int x[]){
+int cycle_x(int x[]){
     int temp = x[2] ^ x[3];
     
-    for (int i=N-1; i>0; i--){
+    for (int i=N-1; i>0; i--)
+    {
         x[i] = x[i-1];
 
     }
@@ -23,10 +25,11 @@ int cucle_x(int x[]){
     return last_bit;
 }
 
-int cucle_y(int y[]){
+int cycle_y(int y[]){
     int temp = y[1] ^ y[2];
     
-    for (int i=N-1; i>0; i--){
+    for (int i=N-1; i>0; i--)
+    {
         y[i] = y[i-1];
 
     }
@@ -36,31 +39,82 @@ int cucle_y(int y[]){
     return last_bit;
 }
 
+int cycle_shift_psevdo(int psevdo[], int size){
+    int temp = psevdo[size-1];
+    for (int i = size - 1; i > 0; i--)
+    {
+        psevdo[i] = psevdo[i-1];
+    }
+    psevdo[0] = temp;
+
+}
+
+void print_preambula(int n){
+    //printf("| Shift ");
+    for(int i = 0; i < n; i++){
+        printf("| b%2d ",i);
+
+    }
+    printf("| Autocorrelate|\n");
+
+}
+void print_shift_psevdo(int a[], int n){
+    
+    for(int i = 0; i < n; i++){
+        printf("|  %d  ",a[i]);
+
+    }
+    
+}
+
+int autocorrelate(int orig[], int new[], int size){
+    int yes = 0, no = 0;
+    for(int i = 0; i < size; i++){
+        if ( orig[i] == new[i] ){
+            yes += 1;
+        }
+        else
+            no += 1;
+    }
+    return (yes - no);
+}
+
 int main(){
   
     int x[] = {0,1,1,1,1};
     int y[] = {1,0,1,1,0};
     int size = 31;
     int last_x[size], last_y[size];
-    int psevdo[size];
+    int psevdo[size], orig_psevdo[size];
+    int up_auto = 0;
     //print_arrey(x,n);
     last_x[0]=x[0];
     last_y[0]=y[0];
     for(int i=1; i < size; i++){
-        last_x[i] = cucle_x(x);
-        last_y[i] = cucle_y(y);
-        //psevdo[i] = last_x ^ last_y; 
-        //print_arrey(x,n);
-        
+        last_x[i] = cycle_x(x);
+        last_y[i] = cycle_y(y);   
     }
-
 
     for(int i=0; i < size; i++){
         psevdo[i] = last_x[i] ^ last_y[i]; 
-        
+  
     }
-    
-    
-    print_arrey(psevdo,size);
+
+    for(int i=0; i < size; i++){
+        orig_psevdo[i] = psevdo[i]; 
+  
+    }
+
+    print_preambula(size);
+    print_shift_psevdo(psevdo,size);
+    up_auto = autocorrelate(orig_psevdo,psevdo,size);
+    printf("| %2d/%2d        |\n", up_auto, size);
+
+    for(int i=0; i < size; i++){
+        cycle_shift_psevdo(psevdo,size);
+        print_shift_psevdo(psevdo,size);
+        up_auto = autocorrelate(orig_psevdo,psevdo,size);
+        printf("| %2d/%2d        |\n", up_auto, size);
+    }
 }
 
