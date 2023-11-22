@@ -79,13 +79,24 @@ int autocorrelate(int orig[], int new[], int size){
     return (yes - no);
 }
 
+int Correlations(int a[], int b[], int size){
+    int correl = 0 ;
+
+    for (int i=0; i < size; i++){
+        correl+= a[i]*b[i] ;   
+    }
+    return correl;
+}
+
 int main(){
   
     int x[] = {0,1,1,1,1};
     int y[] = {1,0,1,1,0};
+    int x1[] = {1,0,0,0,0};
+    int y1[] = {1,0,0,0,1};
     int size = 31;
     int last_x[size], last_y[size];
-    int psevdo[size], orig_psevdo[size];
+    int psevdo[size], orig_psevdo[size], new_psevdo[size];
     int up_auto = 0;
     //print_arrey(x,n);
     last_x[0]=x[0];
@@ -95,8 +106,20 @@ int main(){
         last_y[i] = cycle_y(y);   
     }
 
+
     for(int i=0; i < size; i++){
         psevdo[i] = last_x[i] ^ last_y[i]; 
+  
+    }
+    last_x[0]=x[0];
+    last_y[0]=y[0];
+    for(int i=1; i < size; i++){
+        last_x[i] = cycle_x(x1);
+        last_y[i] = cycle_y(y1);   
+    }
+
+    for(int i=0; i < size; i++){
+        new_psevdo[i] = last_x[i] ^ last_y[i]; 
   
     }
 
@@ -116,5 +139,12 @@ int main(){
         up_auto = autocorrelate(orig_psevdo,psevdo,size);
         printf("| %2d/%2d        |\n", up_auto, size);
     }
+    printf("Исходная последовательность: ");
+    print_arrey(orig_psevdo,size);
+   
+    printf("Новая последовательность:    ");
+    print_arrey(new_psevdo,size);
+    int correl = Correlations(new_psevdo,orig_psevdo,size);
+    printf("Значение взаимной корреляции исходной и новой последовательностей : %d", correl);
 }
 
