@@ -74,7 +74,7 @@ preampula()
 orig_psevdo = psevdo
 print_table(psevdo,size)
 cor = autocorrelate(psevdo, orig_psevdo, size)
-
+autocor.append(cor/size)
 print("|  %2d/31       |" % (cor))
 
 for i in range(size):  
@@ -92,7 +92,7 @@ b = np.asarray(new_psevdo)
 corelat = np.correlate(a,b)
 print("Значение взаимной корреляции исходной и новой последовательностей : " ,corelat );
 
-lag =np.arange(size)
+lag =np.arange(size+1)
 
 plt.plot(lag,autocor)
 plt.show()
