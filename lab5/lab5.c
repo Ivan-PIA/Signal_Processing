@@ -52,15 +52,43 @@ int main () {
     print_arrey(N_tx,0,len_N_0);
     
     
-    for (int i = 0; i < len_N; i++){
+    for (int i = 0; i < len_N_0; i++){
         if (N_tx[i] == 1){
             for (int j =0; j < len_G; j++ ){
                 N_tx[i+j] = N_tx[i+j] ^ G[j];
             }
         }
     }
+
+    int flag = 0;
     printf("CRC RX:  ");
     print_arrey(N_tx, len_N, len_N_0);
+
+    for (int i = len_N; i < len_N_0; i++){
+        if (N_tx[i] == 1){
+            printf("Error data!");
+            flag = 0;
+            break;
+        }
+        else
+            flag = 1;
+    }
+
+    if (flag == 1){
+        printf("Successful!");
+    }
+
+    for (int i = 0; i < len_N+len_G-1; i++ ){
+
+    }
+        
+
+
+    //for (int i = 0; i < len_N+len_G-1; i++){
+
+    //}
+
+
 
 
 
