@@ -21,6 +21,7 @@ int main () {
     int N_tx[len_N_0];
 
     int G[] = {1,0,1,0,0,1,1,1};
+    //int G[] = {1,0,1,1,1,0,1,1};
 
     for (int i=0; i < len_N; i++){
         N[i] = rand() % 2;
@@ -85,12 +86,16 @@ int main () {
     }
 
     //print_arrey(N_0,0,len_N_0);
+    int temp[len_N_0];
     int cout_error = 0;
+    for(int j = 0; j < len_N+len_G-1; j++ ){
+        temp[j] = N_0[j];
+    }   
     for (int d = 0; d < len_N+len_G-1; d++ ){
         int N_distr[len_N+len_G-1];
         
         for(int j = 0; j < len_N+len_G-1; j++ ){
-            N_distr[j] = N_0[j];
+            N_distr[j] = temp[j];
         }
         
         if (N_distr[d] == 1){
@@ -99,6 +104,9 @@ int main () {
         else
             N_distr[d] = 1;
 
+        for(int j = 0; j < len_N+len_G-1; j++ ){
+            temp[j] = N_distr[j];
+        }
         //print_arrey(N_distr,0,len_N_0);
 
 
@@ -123,13 +131,11 @@ int main () {
             
         }
 
-        
-
-
-
     }
 
-    printf("\nAmount errors after destroed: %d", cout_error); 
-    printf(" out of %d", len_N_0);    
+    printf("\n\nAmount errors after destroed: %d", cout_error); 
+    printf(" out of %d\n", len_N_0);   
+    int good = len_N_0-cout_error;
+    printf("Successful: %d\n", good);
 
 }
